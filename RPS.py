@@ -6,7 +6,7 @@ import random
 
 client = Bot("/")
 
-@client.command(help="Play with .rps [your choice]")
+@client.command(help="Play with /rps [your choice]")
 async def rps(ctx):
     rpsGame = ['rock', 'paper', 'scissors']
     await ctx.send(f"Rock, paper, or scissors? Choose wisely...")
