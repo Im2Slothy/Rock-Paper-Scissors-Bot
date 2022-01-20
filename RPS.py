@@ -16,7 +16,7 @@ async def rps(ctx):
     def check(msg):
         return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
 
-    user_choice = await client.wait_for('message', check=check)
+    user_choice = (await bot.wait_for ('message', check=check)).content
 
     ai_choice = random.choice(rpsGame)
     if user_choice == 'rock':
