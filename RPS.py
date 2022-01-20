@@ -1,7 +1,9 @@
 #Made with ❤ by Slothy#4484 If you have any questions please contact! #
 
+import discord
 
 from discord.ext.commands import Bot
+
 import random
 
 client = Bot("/")
