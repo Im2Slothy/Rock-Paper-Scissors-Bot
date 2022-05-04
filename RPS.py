@@ -1,44 +1,53 @@
 #Made with ❤ by Slothy#4484 If you have any questions please contact! #
 
+
 import discord
 
-from discord.ext.commands import Bot
+from discord.ext import commands
+
 
 import random
 
-client = Bot("/")
 
-@client.command(help="Play with /rps [your choice]")
-async def rps(ctx):
-    rpsGame = ['rock', 'paper', 'scissors']
-    await ctx.send(f"Rock, paper, or scissors? Choose wisely...")
+intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
 
-    def check(msg):
-        return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
+client = commands.Bot(command_prefix = ',', intents = intents)
 
-    user_choice = (await bot.wait_for ('message', check=check)).content
 
-    ai_choice = random.choice(rpsGame)
-    if user_choice == 'rock':
-        if ai_choice == 'rock':
-            await ctx.send(f'Well, that was weird. We tied.\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'paper':
-            await ctx.send(f'Nice try, but I always win!\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'scissors':
-            await ctx.send(f"Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {ai_choice}")
+@client.command()
+async def servers(ctx):
+        servers = list(client.guilds)
+        b=discord.Embed(title=f"How Many Servers We in?",description=f'**Active in {len(servers)} servers!!!**',color=0xff80ed)
+        await ctx.send(embed=b)
 
-    elif user_choice == 'paper':
-        if ai_choice == 'rock':
-            await ctx.send(f'How did you win! I demand a rematch!\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'paper':
-            await ctx.send(f'We just tied. I call a rematch!!\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'scissors':
-            await ctx.send(f"Haha! You lost!\nYour choice: {user_choice}\nMy choice: {ai_choice}")
-
-    elif user_choice == 'scissors':
-        if ai_choice == 'rock':
-            await ctx.send(f'You just got beat by a rock! Loosah!\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'paper':
-            await ctx.send(f'Bruh. 0_0\nYour choice: {user_choice}\nMy choice: {ai_choice}')
-        elif ai_choice == 'scissors':
-            await ctx.send(f"It looks like we tied....\nYour choice: {user_choice}\nMy choice: {ai_choice}")
+@client.command(help= 'Use ,rps [Choice] in order to play!\n **Make sure [choice] is in lowercase (rock, paper, scissors)**')
+async def rps(ctx,message):
+    answer = message.lower()
+    choices = ["rock", "paper", "scissors"]
+    computer_answer = random.choice(choices)
+    if answer not in choices:
+        await ctx.send("That is not a vaild option! Please use one of these options: rock, paper, or scissors!")
+        return
+    else:
+        if computer_answer == answer:
+            await ctx.send(f"Tie! We both picked **{answer}**")
+        if computer_answer == "rock":
+            if answer == "paper":
+                await ctx.send(f"You win! I picked {computer_answer} and you picked {answer}")
+        if computer_answer == "paper":
+            if answer == "rock":
+                await ctx.send(f"I win! I picked {computer_answer} and you picked {answer}")
+        if computer_answer == "scissors":
+            if answer == "rock":
+                await ctx.send(f"You win! I picked {computer_answer} and you picked {answer}")
+        if computer_answer == "rock":
+            if answer == "scissors":
+                await ctx.send(f"I win! I picked {computer_answer} and you picked {answer}")
+        if computer_answer == "paper":
+            if answer == "scissors":
+                await ctx.send(f"You win! I picked {computer_answer} and you picked {answer}")
+        if computer_answer == "scissors":
+            if answer == "paper":
+                await ctx.send(f"I win! I picked {computer_answer} and you picked {answer}")
+        
+client.run('TOKEN')
