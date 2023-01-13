@@ -22,7 +22,20 @@ bot = discord.Bot()
 async def on_ready():
     print('The Public Bot is online')
 
+class rock(discord.ui.View): # Create a class called MyView that subclasses discord.ui.View
+    @discord.ui.button(label="", style=discord.ButtonStyle.primary, emoji="🤜") # Create a button with the label "🤜 Click me!" with color Blurple
+    async def button_callback(self, button, interaction):
+        await interaction.response.send_message("You clicked the button!")
 
+class paper(discord.ui.View): # Create a class called MyView that subclasses discord.ui.View
+    @discord.ui.button(label="", style=discord.ButtonStyle.primary, emoji="✋") # Create a button with the label "🤜 Click me!" with color Blurple
+    async def button_callback(self, button, interaction):
+        await interaction.response.send_message("You clicked the button!")
+
+class scissors(discord.ui.View): # Create a class called MyView that subclasses discord.ui.View
+    @discord.ui.button(label="", style=discord.ButtonStyle.primary, emoji="✌️") # Create a button with the label "🤜 Click me!" with color Blurple
+    async def button_callback(self, button, interaction):
+        await interaction.response.send_message("You clicked the button!")
 
 
 # Start of Basic Random Commands to Add to your server #
@@ -32,6 +45,28 @@ async def on_ready():
 async def ping(ctx): # a slash command will be created with the name "ping"
     embed = discord.Embed(title='My ping!', description=f"**Pong! {round(bot.latency * 1000)}ms**", color=0xFF5733)
     await ctx.respond(embed=embed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 #RPS a person of your choice
