@@ -27,9 +27,10 @@ async def on_ready():
 
 @bot.command(description="RPS vs the Bot")
 async def rps(ctx):
-    choices = ["🤜", "✋", "✌️"]
+    choices = ["🤜", "✋", "✌️"] #Choices you'll choose from
     computer_answer = random.choice(choices)
 
+    #Lets check to see if the reactor is the author and the emoji is in the listed emojis
     def check(reaction, user):
         return user == ctx.author and reaction.emoji in choices
 
@@ -43,12 +44,15 @@ async def rps(ctx):
     await message.add_reaction("✋")
     await message.add_reaction("✌️")
 
+    #If you don't answer within 60 seconds game is over
     try:
         reaction, user = await bot.wait_for("reaction_add", check=check, timeout=60.0)
     except asyncio.TimeoutError:
         await ctx.send("You ran out of time... You lose!")
         return
     answer = reaction.emoji
+    
+    #RPS Logic
     if computer_answer == answer:
         await ctx.send(f"Tie! We both picked **{answer}**")
     if computer_answer == "🤜":
@@ -75,17 +79,20 @@ async def rps_someone(ctx, member: discord.Member):
     await question_msg.add_reaction("✅")
     await question_msg.add_reaction("❌")
 
+    #Lets check to see if the reactor is the member that was mentioned and the emoji is in the listed emojis
     def check(reaction, user):
         return user == member and str(reaction.emoji) in ["✅", "❌"]
-
+    #If member doesn't answer game is over
     try:
         reaction, user = await bot.wait_for("reaction_add", check=check, timeout=60.0)
     except asyncio.TimeoutError:
         await ctx.send("Nobody made a choice in 60 Seconds... Nobody Wins!")
         return
+    #If X is chosen respond with the person doesn't want to play 
     if str(reaction.emoji) == "❌":
         await ctx.send(f"{member.mention} doesn't want to play.")
         return
+    #Lets put the choices in the message
     elif str(reaction.emoji) == "✅":
         choices = ["🤜", "✋", "✌️"]
         player1 = (ctx.author, None)
